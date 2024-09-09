@@ -79,7 +79,7 @@ jobs:
         echo "docker pull $full_image"
         docker pull $full_image
         new_image="$HWC_REGISTRY/$HWC_SWR_PROJECT/$full_image"
-        echo "docker tag $image $new_image"
+        echo "docker tag $full_image $new_image"
         docker tag $image $new_image
         echo "docker push $new_image"
         docker push $new_image
