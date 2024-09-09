@@ -10,8 +10,8 @@ on:
         default: ''
 
 env:
-  HWC_REGISTRY: "${{ secrets.HWC_REGISTRY }}"
-  HWC_NAME_SPACE: "${{ secrets.HWC_NAME_SPACE }}"
+  HWC_REGISTRY: "${{ vars.HWC_REGISTRY }}"
+  HWC_SWR_PROJECT: "${{ vars.HWC_SWR_PROJECT }}"
   HWC_REGISTRY_USER: "${{ secrets.HWC_REGISTRY_USER }}"
   HWC_REGISTRY_PASSWORD: "${{ secrets.HWC_REGISTRY_PASSWORD }}"
 
@@ -78,7 +78,7 @@ jobs:
         echo "image_name: $image_name"
         echo "docker pull $full_image"
         docker pull $full_image
-        new_image="$HWC_REGISTRY/$HWC_NAME_SPACE/$full_image"
+        new_image="$HWC_REGISTRY/$HWC_SWR_PROJECT/$full_image"
         echo "docker tag $image $new_image"
         docker tag $image $new_image
         echo "docker push $new_image"
