@@ -11,7 +11,7 @@ on:
 
 env:
   HWC_REGISTRY: "${{ vars.HWC_REGISTRY }}"
-  HWC_SWR_PROJECT: "${{ vars.HWC_SWR_PROJECT }}"
+  HWC_SWR_PROJECT: "${{ secrets.HWC_SWR_PROJECT }}"
   HWC_REGISTRY_USER: "${{ secrets.HWC_REGISTRY_USER }}"
   HWC_REGISTRY_PASSWORD: "${{ secrets.HWC_REGISTRY_PASSWORD }}"
 
@@ -80,7 +80,7 @@ jobs:
         docker pull $full_image
         new_image="$HWC_REGISTRY/$HWC_SWR_PROJECT/$full_image"
         echo "docker tag $full_image $new_image"
-        docker tag $image $new_image
+        docker tag $full_image $new_image
         echo "docker push $new_image"
         docker push $new_image
         echo "开始清理磁盘空间"
