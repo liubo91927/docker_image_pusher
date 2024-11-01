@@ -82,7 +82,7 @@ jobs:
         repository=$(echo "$full_image" | awk -F':' '{print $1}')
         echo "swr repository: $repository"
         # 1panel/kubepi
-        echo "SWR_REPOSITORY=$HWC_SWR_PROJECT/$repository" >> $GITHUB_ENV
+        echo "SWR_REPOSITORY=$repository" >> $GITHUB_ENV
         echo "docker pull $full_image"
         docker pull $full_image
         new_image="$HWC_REGISTRY/$HWC_SWR_PROJECT/$full_image"
@@ -112,5 +112,7 @@ jobs:
 
     - name: Set HuaweiCloud repo to public
       run: |
-        hcloud SWR UpdateRepo --Content-Type="application/json" --namespace="$HWC_SWR_PROJECT" --repository="$SWR_REPOSITORY" --is_public=true
+        # 替换/为$，例如1panel$kubepi
+        repository=$(echo "$SWR_REPOSITORY" | sed 's/\//\$/g')
+        hcloud SWR UpdateRepo --Content-Type="application/json" --namespace="$HWC_SWR_PROJECT" --repository="$repository" --is_public=true
       
