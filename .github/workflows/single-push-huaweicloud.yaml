@@ -108,7 +108,7 @@ jobs:
           secret_access_key: ${{ secrets.HWC_SK }}
           region: 'cn-north-4'
     - name: Set up KooCLI
-      uses: huaweicloud/huaweicloud-cli-action@v1.0.3
+      uses: huaweicloud/huaweicloud-cli-action@v1.0.0
 
     - name: Set HuaweiCloud repo to public
       run: |
