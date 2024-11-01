@@ -112,5 +112,5 @@ jobs:
 
     - name: Set HuaweiCloud repo to public
       run: |
-        hcloud SWR UpdateRepo --cli-region="cn-north-4" --X-Language="zh-cn" --project_id="e5c8272994c0490fa199baec4c058d47" --Content-Type="application/json" --namespace="$HWC_SWR_PROJECT" --repository="$SWR_REPOSITORY" --is_public=true
+        hcloud SWR UpdateRepo --Content-Type="application/json" --namespace="$HWC_SWR_PROJECT" --repository="$SWR_REPOSITORY" --is_public=true
       
