@@ -14,6 +14,8 @@ env:
   HWC_SWR_PROJECT: "${{ secrets.HWC_SWR_PROJECT }}"
   HWC_REGISTRY_USER: "${{ secrets.HWC_REGISTRY_USER }}"
   HWC_REGISTRY_PASSWORD: "${{ secrets.HWC_REGISTRY_PASSWORD }}"
+  HWC_AK: "${{ secrets.HWC_AK }}"
+  HWC_SK: "${{ secrets.HWC_SK }}"
 
 jobs:
 
@@ -67,15 +69,20 @@ jobs:
         full_image="${origin_image%%@*}"
         echo "=============================================================================="
         echo "full_image: $full_image"
-        # 获取镜像名:版本号  例如nginx:1.25.3
+        # 获取镜像名:版本号  例如 1panel/kubepi:latest
         image_name_with_tag=$(echo "$full_image" | awk -F'/' '{print $NF}')
+        # 如kubepi:latest
         echo "image_name_with_tag: $image_name_with_tag"
         # 获取命名空间 例如kasmweb,  这里有种特殊情况 docker.io/nginx，把docker.io当成命名空间，也OK
         name_space=$(echo "$image" | awk -F'/' '{if (NF==3) print $2; else if (NF==2) print $1; else print ""}')
         echo "name_space: $name_space"
-        # 获取镜像名例如nginx
+        # 获取镜像名例如kubepi
         image_name=$(echo "$image_name_with_tag" | awk -F':' '{print $1}')
         echo "image_name: $image_name"
+        repository=$(echo "$full_image" | awk -F':' '{print $1}')
+        echo "swr repository: $repository"
+        # 1panel/kubepi
+        echo "SWR_REPOSITORY=$HWC_SWR_PROJECT/$repository" >> $GITHUB_ENV
         echo "docker pull $full_image"
         docker pull $full_image
         new_image="$HWC_REGISTRY/$HWC_SWR_PROJECT/$full_image"
@@ -93,4 +100,9 @@ jobs:
         echo "=============================================================================="
         df -hT
         echo "=============================================================================="
+    - name: Build and push image to HuaweiCloud
+      run: |
+        echo "start to set the image to public"
+        curl -sSL https://cn-north-4-hdn-koocli.obs.cn-north-4.myhuaweicloud.com/cli/latest/hcloud_install.sh | bash
+        hcloud SWR UpdateRepo --access-key="$HWC_AK" --secret-key="$HWC_SK"  --X-Language="zh-cn" --project_id="e5c8272994c0490fa199baec4c058d47" --Content-Type="application/json" --namespace="$HWC_SWR_PROJECT" --repository="$SWR_REPOSITORY" --is_public=true
 
