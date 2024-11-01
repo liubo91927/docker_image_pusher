@@ -103,6 +103,7 @@ jobs:
     - name: Set HuaweiCloud repo to public
       run: |
         echo "start to set the image to public"
-        curl -sSL https://cn-north-4-hdn-koocli.obs.cn-north-4.myhuaweicloud.com/cli/latest/hcloud_install.sh | bash
+        curl -sSL "https://cn-north-4-hdn-koocli.obs.cn-north-4.myhuaweicloud.com/cli/latest/huaweicloud-cli-linux-amd64.tar.gz" |tar -zx -C /usr/local/bin
+
         hcloud SWR UpdateRepo --access-key="$HWC_AK" --secret-key="$HWC_SK"  --X-Language="zh-cn" --project_id="e5c8272994c0490fa199baec4c058d47" --Content-Type="application/json" --namespace="$HWC_SWR_PROJECT" --repository="$SWR_REPOSITORY" --is_public=true
 
