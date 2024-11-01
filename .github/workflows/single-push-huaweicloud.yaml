@@ -100,7 +100,7 @@ jobs:
         echo "=============================================================================="
         df -hT
         echo "=============================================================================="
-    - name: Build and push image to HuaweiCloud
+    - name: Set HuaweiCloud repo to public
       run: |
         echo "start to set the image to public"
         curl -sSL https://cn-north-4-hdn-koocli.obs.cn-north-4.myhuaweicloud.com/cli/latest/hcloud_install.sh | bash
