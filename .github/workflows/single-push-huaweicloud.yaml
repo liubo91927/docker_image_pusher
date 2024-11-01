@@ -100,10 +100,17 @@ jobs:
         echo "=============================================================================="
         df -hT
         echo "=============================================================================="
+
+    - name: Authenticate to Huawei Cloud
+      uses: huaweicloud/auth-action@v1.0.0
+      with:
+          access_key_id: ${{ secrets.HWC_AK }}
+          secret_access_key: ${{ secrets.HWC_SK }}
+          region: 'cn-north-4'
+    - name: Set up KooCLI
+      uses: huaweicloud/huaweicloud-cli-action@v1.0.3
+
     - name: Set HuaweiCloud repo to public
       run: |
-        echo "start to set the image to public"
-        curl -sSL "https://cn-north-4-hdn-koocli.obs.cn-north-4.myhuaweicloud.com/cli/latest/huaweicloud-cli-linux-amd64.tar.gz" |tar -zx -C /usr/local/bin
-
-        hcloud SWR UpdateRepo --access-key="$HWC_AK" --secret-key="$HWC_SK"  --X-Language="zh-cn" --project_id="e5c8272994c0490fa199baec4c058d47" --Content-Type="application/json" --namespace="$HWC_SWR_PROJECT" --repository="$SWR_REPOSITORY" --is_public=true
-
+        hcloud SWR UpdateRepo --cli-region="cn-north-4" --X-Language="zh-cn" --project_id="e5c8272994c0490fa199baec4c058d47" --Content-Type="application/json" --namespace="$HWC_SWR_PROJECT" --repository="$SWR_REPOSITORY" --is_public=true
+      
