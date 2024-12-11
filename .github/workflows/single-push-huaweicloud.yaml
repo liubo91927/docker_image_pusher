@@ -10,7 +10,7 @@ on:
         default: ''
 
 env:
-  HWC_REGISTRY: "${{ vars.HWC_REGISTRY }}"
+  HWC_REGISTRY: "${{ secrets.HWC_REGISTRY }}"
   HWC_SWR_PROJECT: "${{ secrets.HWC_SWR_PROJECT }}"
   HWC_REGISTRY_USER: "${{ secrets.HWC_REGISTRY_USER }}"
   HWC_REGISTRY_PASSWORD: "${{ secrets.HWC_REGISTRY_PASSWORD }}"
@@ -28,6 +28,7 @@ jobs:
         echo "Before freeing up disk space"
         echo "=============================================================================="
         df -hT
+        env
         echo "=============================================================================="
 
     # 增加可用磁盘空间
